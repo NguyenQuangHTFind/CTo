@@ -41,7 +41,7 @@ namespace XProject.Service
         public void Create(List<IFormFile> files, Log log)
         {
             List<Contract.Repository.Models.Log> f = new List<Contract.Repository.Models.Log>();
-            string path1 = "D:\\log";
+            string path1 = "D:\\hoctap\\log";
             string path2 = Path.Combine(path1, log.Id.ToString());
             if (files.Count > 0)
             {
@@ -49,7 +49,7 @@ namespace XProject.Service
                 foreach (var file in files)
                 {
                     string s = file.FileName;
-                    var FilePath = path2 + "\\" + s;
+                    var FilePath = path2 + "" + s;
 
                     using (var stream = System.IO.File.Create(FilePath))
                     {
@@ -65,24 +65,60 @@ namespace XProject.Service
             _uof.SaveChanges();
         }
 
-        public void Update(Log log, string id)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public void Delete(Log log, string id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(List<IFormFile> files, Log log)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Delete(List<IFormFile> files, Log log)
         {
-            throw new NotImplementedException();
+            List<Contract.Repository.Models.Log> f = new List<Contract.Repository.Models.Log>();
+            string path1 = "D:\\hoctap\\log";
+            string path2 = Path.Combine(path1, log.Id.ToString());
+            if (files.Count > 0)
+            {
+                Directory.Delete(path2);
+                foreach (var file in files)
+                {
+                    string s = file.FileName;
+                    var FilePath = path2 + "" + s;
+
+                    using (var stream = System.IO.File.Create(FilePath))
+                    {
+                        file.CopyToAsync(stream);
+                    }
+                    Contract.Repository.Models.Log ff = new Contract.Repository.Models.Log();
+
+                    log.FileName = Path.GetFileName(file.FileName).ToString();
+                    f.Add(ff);
+                }
+            }
+            _LogRepo.Delete(log);
+            _uof.SaveChanges();
+        }
+
+
+        public void UpdateLog(Log log, string id)
+        {
+            
+            if (id == log.Id)
+            {
+                _LogRepo.Update(log);
+                _uof.SaveChanges();
+            }
+
+        }
+
+        void ILogService.Delete(Log log, string id)
+        {
+            if (id == log.Id)
+            {
+                _LogRepo.Delete(log);
+                _uof.SaveChanges();
+            }
         }
     }
 }

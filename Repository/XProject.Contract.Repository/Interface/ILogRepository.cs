@@ -8,7 +8,7 @@ using XProject.Contract.Repository.Models;
 
 namespace XProject.Contract.Repository.Interface
 {
-    public interface ILogRepository : IRepository<Log>
+    public interface ILogRepository: IRepository<Log>
     {
     }
 }

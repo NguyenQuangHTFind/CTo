@@ -5,6 +5,8 @@ namespace XProject.Repository.Infrastructure
 {
     public sealed partial class AppDbContext
     {
-        public DbSet<WorkingTime> WorkingTimes { get; set; }
+        public DbSet<Log> logs { get; set; }
+
+        public DbSet<User> users { get; set; }
     }
 }

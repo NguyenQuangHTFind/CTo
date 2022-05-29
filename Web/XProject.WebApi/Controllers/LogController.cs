@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using XProject.Contract.Repository.Models;
 using XProject.Contract.Service.Interface;
 using XProject.Core.Constants;
@@ -23,7 +21,7 @@ namespace XProject.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route(Endpoints.LogEndpoint.GetLog)]
+        [Route(Endpoints.LogEndpoint.Getlog)]
         public List<Log> GetLog()
         {
             return _logService.Get().ToList();
@@ -40,20 +38,21 @@ namespace XProject.WebApi.Controllers
 
 
 
-
-        [HttpPut]
+        [HttpPost]
         [Route(Endpoints.LogEndpoint.UpdateLog)]
-        public void UpdateLog(List<IFormFile> files, Log log)
+        public void UpdateLog(Log log, string id)
         {
-            _logService.Update(files, log);
+
+            _logService.UpdateLog(log, id);
+
         }
 
 
         [HttpDelete]
         [Route(Endpoints.LogEndpoint.DeleteLog)]
-        public void DeleteLog(List<IFormFile> files, Log log)
+        public void DeleteLog(Log log, string id)
         {
-            _logService.Delete(files, log);
+            _logService.Delete(log, id);
         }
     }
 }

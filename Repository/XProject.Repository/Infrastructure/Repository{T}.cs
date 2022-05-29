@@ -11,13 +11,10 @@ using XProject.Core.Utils;
 
 namespace XProject.Repository.Infrastructure
 {
-    //EntityStringRepository<T> where T : Entity, new()
     public class Repository<T> : EntityStringRepository<T>, IRepository<T> where T : Entity, new()
     {
-       
         public Repository(IDbContext dbContext) : base(dbContext)
         {
-
         }
     }
 }

@@ -11,10 +11,11 @@ using XProject.Repository.Infrastructure;
 
 namespace XProject.Repository
 {
-    [ScopedDependency(ServiceType =typeof(ILogRepository))]
+    [ScopedDependency(ServiceType = typeof(ILogRepository))]
     public class LogRepository : Repository<Log>, ILogRepository
     {
         public LogRepository(IDbContext dbContext) : base(dbContext)
-        { }
+        {
+        }
     }
 }

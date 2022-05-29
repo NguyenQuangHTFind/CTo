@@ -22,6 +22,10 @@ using XProject.Core.Utils;
 using XProject.Repository.Infrastructure;
 using XProject.WebApi.Filters.Validation;
 using XProject.WebApi.Modules;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using XProject.Contract.Repository.Models;
+using System.Text;
 
 namespace XProject.WebApi
 {
@@ -59,6 +63,28 @@ namespace XProject.WebApi
             services.AddDataProtection();
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(SystemHelper.AppDb));
+
+            //SecretKey
+            var secretKey = Configuration["AppSettings:SecretKey"];
+            var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
+
+            services.AddAuthentication
+                (JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // tu cap token
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+
+                        // ky vao token 
+
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             //Repository service
 
@@ -99,6 +125,10 @@ namespace XProject.WebApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
+            
+            app.UseAuthorization();
 
             app.UseRouting();
 

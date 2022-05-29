@@ -15,12 +15,12 @@ namespace XProject.Contract.Service.Interface
     public interface ILogService
     {
         void Create(List<IFormFile> files, Log log);
-        
-        void Update(Log log, string id);
-        void Delete(Log log,string id);
+
+        void UpdateLog(Log log, string id);
+        void Delete(Log log, string id);
 
         List<Log> Get();
-        void Update(List<IFormFile> files, Log log);
-        void Delete(List<IFormFile> files, Log log);
+        
+       
     }
 }
